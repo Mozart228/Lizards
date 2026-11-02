@@ -62,7 +62,7 @@ Lizard не заменяет ChatGPT. Он решает задачи, где о�
 
 ## Демо
 
-Попробуйте прямо сейчас: **[demo.lizard.ai](https://demo.lizard.ai)**
+Попробуйте прямо сейчас: **[demo.lizard.ai](https://jazzy-buttercream-8d62ad.netlify.app/)**
 
 Запускает Qwen 0.5B в браузере через WebGPU. Без регистрации. Без сервера.
 
@@ -193,20 +193,7 @@ docker run -it --rm lizard/runtime:cpu
 
 ---
 
-## Вдохновлено
 
-Lizard не существовал бы без этих проектов. Мы не копируем их код, но учимся у них:
-
-- [**MiniCPM**](https://github.com/OpenBMB/MiniCPM) — MoE на слабом железе
-- [**Soup**](https://github.com/soup-build/soup) — fine-tuning на ноутбуках
-- [**ModelOpt**](https://github.com/NVIDIA/TensorRT-Model-Optimizer) — продвинутое квантование
-- [**Strata**](https://github.com/StrataEngine/strata) — иерархическое размещение экспертов
-- [**Needle**](https://github.com/cactus-compute/needle) — tool calling на микроконтроллерах
-- [**Transformers.js**](https://github.com/huggingface/transformers.js) — рантайм для браузера
-
-Спасибо авторам. См. [CREDITS.md](CREDITS.md).
-
----
 
 ## Статус
 
