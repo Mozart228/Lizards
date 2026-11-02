@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=e997e403-bb13-4d80-9ba0-9d2389c9ded8
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lizard — ИИ для слабого железа. Офлайн. Приватно.</title>
+<style>
+  :root{
+    --bg:#0a0f0a;
+    --bg-2:#0f1a12;
+    --green:#5eff9f;
+    --green-2:#00e676;
+    --text:#e6ffe9;
+    --muted:#8aa892;
+    --border:rgba(94,255,159,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:
+      radial-gradient(1200px 600px at 70% -10%, rgba(94,255,159,.12), transparent 60%),
+      radial-gradient(800px 400px at 10% 100%, rgba(0,230,118,.08), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+
+  /* NAV */
+  nav{
+    max-width:1200px;margin:0 auto;padding:24px 32px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .logo{
+    display:flex;align-items:center;gap:10px;
+    font-weight:700;letter-spacing:.5px;font-size:18px;
+  }
+  .logo-mark{
+    width:28px;height:28px;border-radius:8px;
+    background:linear-gradient(135deg,var(--green),var(--green-2));
+    box-shadow:0 0 20px rgba(94,255,159,.5);
+    position:relative;
+  }
+  .logo-mark::after{
+    content:"";position:absolute;inset:6px;border-radius:4px;
+    background:var(--bg);opacity:.85;
+  }
+  .nav-links{display:flex;gap:28px;font-size:14px;color:var(--muted)}
+  .nav-links a{color:inherit;text-decoration:none;transition:color .2s}
+  .nav-links a:hover{color:var(--green)}
+
+  /* HERO */
+  .hero{
+    max-width:1200px;margin:0 auto;padding:40px 32px 80px;
+    display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center;
+    min-height:78vh;
+  }
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 14px;border:1px solid var(--border);border-radius:100px;
+    font-size:13px;color:var(--muted);margin-bottom:24px;
+    background:rgba(94,255,159,.04);
+  }
+  .badge .dot{
+    width:6px;height:6px;border-radius:50%;background:var(--green);
+    box-shadow:0 0 8px var(--green);
+    animation:pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse{50%{opacity:.4;transform:scale(.8)}}
+
+  h1{
+    font-size:clamp(34px,4.4vw,58px);
+    line-height:1.05;letter-spacing:-.02em;font-weight:800;
+    margin-bottom:22px;
+  }
+  h1 .grad{
+    background:linear-gradient(120deg,var(--green) 0%, var(--green-2) 60%, #b6ffce 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .sub{
+    font-size:clamp(16px,1.4vw,19px);
+    color:var(--muted);max-width:560px;margin-bottom:36px;
+  }
+
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:36px}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:14px 24px;border-radius:12px;font-size:15px;font-weight:600;
+    text-decoration:none;cursor:pointer;border:1px solid transparent;
+    transition:all .2s ease;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--green),var(--green-2));
+    color:#04160b;
+    box-shadow:0 8px 30px rgba(94,255,159,.28);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(94,255,159,.42)}
+  .btn-ghost{
+    background:transparent;color:var(--text);border-color:var(--border);
+  }
+  .btn-ghost:hover{border-color:var(--green);color:var(--green)}
+  .btn-link{
+    padding:14px 4px;color:var(--muted);
+  }
+  .btn-link:hover{color:var(--green)}
+
+  .stats{display:flex;gap:32px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+  .stats b{color:var(--text);display:block;font-size:20px;font-weight:700;margin-bottom:2px}
+
+  /* VISUAL / ANIMATION */
+  .visual{
+    position:relative;height:520px;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  /* Ядро модели */
+  .core{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:110px;height:110px;border-radius:24px;
+    background:linear-gradient(135deg,rgba(94,255,159,.9),rgba(0,230,118,.7));
+    box-shadow:0 0 60px rgba(94,255,159,.5), inset 0 0 20px rgba(255,255,255,.2);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;color:#04160b;font-size:22px;letter-spacing:-.5px;
+    z-index:3;
+    animation:corePulse 3s ease-in-out infinite;
+  }
+  .core::after{
+    content:"";position:absolute;inset:-14px;border-radius:32px;
+    border:1px dashed rgba(94,255,159,.4);
+    animation:spin 18s linear infinite;
+  }
+  @keyframes corePulse{
+    0%,100%{transform:translate(-50%,-50%) scale(1)}
+    50%{transform:translate(-50%,-50%) scale(1.06)}
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* Устройства вокруг */
+  .device{
+    position:absolute;
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    opacity:0;transform:scale(.6);
+    animation:appear 1s ease forwards;
+  }
+  .device .icon{
+    width:64px;height:64px;border-radius:16px;
+    background:rgba(94,255,159,.06);
+    border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    backdrop-filter:blur(6px);
+  }
+  .device .icon svg{width:30px;height:30px;stroke:var(--green);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .device span{font-size:11px;color:var(--muted);letter-spacing:.3px}
+
+  .d1{top:0;left:6%;animation-delay:.2s}
+  .d2{top:8%;right:4%;animation-delay:.5s}
+  .d3{bottom:6%;left:0%;animation-delay:.8s}
+  .d4{bottom:0;right:8%;animation-delay:1.1s}
+
+  @keyframes appear{
+    to{opacity:1;transform:scale(1)}
+  }
+
+  /* Линии связи */
+  .links{position:absolute;inset:0;pointer-events:none;z-index:1}
+  .links line{
+    stroke:rgba(94,255,159,.35);
+    stroke-width:1;
+    stroke-dasharray:4 6;
+    animation:dash 3s linear infinite;
+  }
+  @keyframes dash{to{stroke-dashoffset:-40}}
+
+  /* Секции ниже */
+  section.features{
+    max-width:1200px;margin:0 auto;padding:80px 32px;
+    border-top:1px solid var(--border);
+  }
+  .section-title{
+    font-size:14px;text-transform:uppercase;letter-spacing:2px;
+    color:var(--green);margin-bottom:14px;
+  }
+  .section-h{font-size:32px;font-weight:700;margin-bottom:48px;max-width:640px}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .card{
+    padding:28px;border:1px solid var(--border);border-radius:18px;
+    background:linear-gradient(180deg,rgba(94,255,159,.03),transparent);
+    transition:transform .25s ease, border-color .25s ease;
+  }
+  .card:hover{transform:translateY(-4px);border-color:rgba(94,255,159,.4)}
+  .card h3{font-size:18px;margin-bottom:10px}
+  .card p{color:var(--muted);font-size:14.5px}
+
+  /* CTA-секция */
+  .cta-final{
+    max-width:1200px;margin:0 auto;padding:80px 32px 120px;
+    text-align:center;
+  }
+  .cta-final h2{font-size:clamp(28px,3.4vw,44px);font-weight:800;margin-bottom:18px}
+  .cta-final p{color:var(--muted);max-width:560px;margin:0 auto 36px}
+  .cta-final .cta-row{justify-content:center}
+
+  /* Адаптив */
+  @media (max-width:900px){
+    .hero{grid-template-columns:1fr;gap:40px;padding-top:20px}
+    .visual{height:420px}
+    .grid{grid-template-columns:1fr}
+    .nav-links{display:none}
+  }
+  @media (max-width:520px){
+    .visual{height:360px}
+    .device .icon{width:52px;height:52px}
+    .core{width:88px;height:88px;font-size:18px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <div class="logo-mark"></div>
+    LIZARD
+  </div>
+  <div class="nav-links">
+    <a href="#features">Возможности</a>
+    <a href="#sdk">SDK</a>
+    <a href="demo.html">Демо</a>
+    <a href="#waitlist">Waitlist</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div>
+    <div class="badge"><span class="dot"></span> Экспериментальная сборка · v0.1</div>
+    <h1>
+      Lizard — ИИ, который работает<br>
+      на <span class="grad">слабом железе</span>.<br>
+      Офлайн. Приватно.
+    </h1>
+    <p class="sub">
+      Экспериментальная сжатая модель + рантайм + SDK для смартфонов,
+      IoT, браузера и дешёвых VPS. Без облака. Без утечек. Без GPU.
+    </p>
+
+    <div class="cta-row">
+      <a class="btn btn-primary" href="demo.html">▶ Попробовать демо</a>
+      <a class="btn btn-ghost" href="#sdk">Получить SDK</a>
+      <a class="btn btn-link" href="#waitlist">Присоединиться к waitlist →</a>
+    </div>
+
+    <div class="stats">
+      <div><b>~180 МБ</b>Размер модели</div>
+      <div><b>&lt; 500 мс</b>Ответ на CPU</div>
+      <div><b>0 запросов</b>К внешним API</div>
+    </div>
+  </div>
+
+  <div class="visual" aria-hidden="true">
+    <svg class="links" viewBox="0 0 500 520" preserveAspectRatio="none">
+      <line x1="250" y1="260" x2="80"  y2="60" />
+      <line x1="250" y1="260" x2="430" y2="90" />
+      <line x1="250" y1="260" x2="70"  y2="450" />
+      <line x1="250" y1="260" x2="440" y2="460" />
+    </svg>
+
+    <div class="core">LIZARD</div>
+
+    <div class="device d1">
+      <div class="icon">
+        <svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+      </div>
+      <span>Смартфон</span>
+    </div>
+
+    <div class="device d2">
+      <div class="icon">
+        <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/><circle cx="9" cy="15" r="1"/><circle cx="15" cy="15" r="1"/></svg>
+      </div>
+      <span>Raspberry Pi</span>
+    </div>
+
+    <div class="device d3">
+      <div class="icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>
+      </div>
+      <span>Браузер</span>
+    </div>
+
+    <div class="device d4">
+      <div class="icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="18" height="6" rx="1"/><circle cx="7" cy="7" r=".5"/><circle cx="7" cy="17" r=".5"/></svg>
+      </div>
+      <span>Дешёвый VPS</span>
+    </div>
+  </div>
+</header>
+
+<section class="features" id="features">
+  <div class="section-title">Почему Lizard</div>
+  <h2 class="section-h">Полноценный ИИ там, где не помещается ничего другого</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h3>🪶 Работает офлайн</h3>
+      <p>Модель целиком помещается на устройство. Нет интернета — нет проблемы. Никаких обращений к облаку.</p>
+    </div>
+    <div class="card">
+      <h3>🔒 Приватность по умолчанию</h3>
+      <p>Данные не покидают устройство. Идеально для медицины, финансов, промышленности и просто параноиков.</p>
+    </div>
+    <div class="card">
+      <h3>⚡ Лёгкий рантайм</h3>
+      <p>Оптимизирован под CPU: ARM, x86, WASM. Работает без GPU и без CUDA-магии.</p>
+    </div>
+    <div class="card">
+      <h3>📦 Один SDK — все платформы</h3>
+      <p>iOS, Android, Linux, Windows, браузер и встраиваемые системы. Один API, один набор моделей.</p>
+    </div>
+    <div class="card">
+      <h3>🧩 Готовые сценарии</h3>
+      <p>Чат, суммаризация, извлечение сущностей, классификация и ассистент для IoT-устройств.</p>
+    </div>
+    <div class="card">
+      <h3>🧪 Открытые эксперименты</h3>
+      <p>Мы делимся бенчмарками, квантованием и всем, что помогает ИИ работать на слабом железе.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-final" id="waitlist">
+  <h2>Готовы попробовать Lizard?</h2>
+  <p>Получите ранний доступ к SDK и демо-сборке для своей платформы.</p>
+  <div class="cta-row">
+    <a class='btn btn-primary' href='demo.html'>▶ Попробовать демо</a>
+    <a class="btn btn-ghost" href="#sdk">Получить SDK</a>
+    <a class="btn btn-link" href="#waitlist">Присоединиться к waitlist →</a>
+  </div>
+</section>
+
+</body>
+</html>
+<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="e997e403-bb13-4d80-9ba0-9d2389c9ded8" data-app-host="app.netlify.com" data-account-tier="free"></script>
