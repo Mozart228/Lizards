@@ -1,10 +1,10 @@
-# Lizard
+# Lizards
 On-device LLM runtime for weak hardware. Run compressed AI models offline on phones, Raspberry Pi, browsers and cheap VPS. No cloud. No GPU. No data leaks.
 
 
 <div align="center">
 
-# 🦎 Lizard
+# 🦎 Lizards
 
 **ИИ, который работает на слабом железе. Офлайн. Приватно.**
 
@@ -225,7 +225,7 @@ docker run -it --rm lizard/runtime:cpu
 
 ## Лицензия
 
-MIT © 2025 Lizard Team
+MIT © 2025 Lizards Team
 
 См. [LICENSE](LICENSE).
 
